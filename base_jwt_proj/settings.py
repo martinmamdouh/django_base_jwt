@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'custom_jwt',
+    'exception_handler_middleware',
 ]
 
 MIDDLEWARE = [
@@ -50,6 +51,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # ____adding my custom middle ware ar the end coz it is excetion handler which will work with the response
+    # object so it will be the fiirst class to be executed before the effectof django exception handler take place
+    # also it wil return None so it will not affect the normal behaviour of the Django rame work it will just add custom features.
+    # applicationName.ModuleName.ClassName
+    'exception_handler_middleware.middleware.CustomExceptionHandlerMiddleware',
 ]
 
 ROOT_URLCONF = 'base_jwt_proj.urls'
@@ -106,12 +112,12 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 REST_FRAMEWORK = {
-   
+
     'DEFAULT_AUTHENTICATION_CLASSES': (
-     
+
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
-   
+
 }
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
