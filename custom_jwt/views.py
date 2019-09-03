@@ -10,10 +10,10 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token = super().get_token(user)
 
         # Add custom claims
-        #print(user.__dict__)
         token['name'] = user.username
-        # ...
-
+        groups=[group.name for group in user.groups.all()]
+        token['group']=groups
+        
         return token
 
 class MyTokenObtainPairView(TokenObtainPairView):
